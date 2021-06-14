@@ -6,7 +6,7 @@ services:
             POSTGRES_USER: olist_django
             POSTGRES_PASSWORD: mudar123
         ports: 
-            - "5432:5432"
+            - "5433:5432"
         container_name: postgres_ts
         expose: 
             - "5432"

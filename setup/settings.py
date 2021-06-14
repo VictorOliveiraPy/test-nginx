@@ -81,7 +81,7 @@ DATABASES = {
     'USER': 'olist_django',
     'PASSWORD': 'mudar123',
     'HOST': 'localhost',
-    'PORT': '5432',
+    'PORT': '5433',
     }
 }
 
