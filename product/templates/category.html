@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">nome</th>
+                <th scope="col">descrição</th>
+                <th scope="col">criado em</th>
+                <th scope="col">atualizado em</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in categories %}
+                <tr>
+                    <th scope="row">{{ item.id }}</th>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.updated_at }}</td>
+                    <td><a href=""><button>Edit</button></a></td>
+                    <td><a href=""><button>Delete</button></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+    <div class="bottom">
+    <a href="/"><button class="btn btn-secondary me-md-2" type="button">main menu</button></a>
+</div> 
+    
+
+{% endblock %}
