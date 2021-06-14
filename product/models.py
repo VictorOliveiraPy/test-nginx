@@ -26,4 +26,4 @@ class Category(BaseModel):
     description = models.CharField(max_length=200)
 
     def __str__(self) -> str:
-        return f"{self.name} - {self.description} - {self.created_at} - {self.updated_at}"
+        return f"Nome: {self.name} - Descrição: {self.description}"
