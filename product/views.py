@@ -1,6 +1,6 @@
-from product.forms import CategoryForm
+from product.forms import CategoryForm, ProductForm
 from django.shortcuts import redirect, render
-from .models import Category
+from .models import Category, Product
 
 
 def list_categories(request):
@@ -28,3 +28,34 @@ def create_categories(request):
         form.save()
         return redirect('list_categories')
     return render(request, 'form.html', {'form': form})
+
+
+def list_products(request):
+    products = Product.objects.all()
+    return render(request, 'product.html', {'products': products})
+
+
+def update_products(request, id):
+    products = Product.objects.get(id=id)
+    form = ProductForm(request.POST or None, instance=products)
+    if form.is_valid():
+        form.save()
+        return redirect('list_products')
+    return render(request, 'form.html', {'form':form})
+
+def delete_products(request, id):
+    products = Product.objects.get(id=id)
+    products.delete()
+    return redirect('list_products')
+    
+
+def create_products(request):
+    form = ProductForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('list_products')
+    return render(request, 'form.html', {'form': form})
+
+def index(request):
+    return render(request, 'index.html')
+
