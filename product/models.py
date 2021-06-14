@@ -1,11 +1,13 @@
 from django.db import models
 
+
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
+
 
 class Product(BaseModel):
     name = models.CharField(max_length=200)
@@ -17,6 +19,7 @@ class Product(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.name} - {self.descripiton} - {self.price} - {self.stock} - {self.gtin} - {self.created_at} - {self.updated_at} - {self.category}"
+
 
 class Category(BaseModel):
     name = models.CharField(max_length=200)
