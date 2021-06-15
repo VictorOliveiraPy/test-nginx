@@ -1,21 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% block content%}
 
-<div>
-    <table class="table table-striped">
+<div class="container">
+    <table class="table mt-5">
         <thead>
             <tr>
-                <th scope="col">id</th>
-                <th scope="col">nome</th>
-                <th scope="col">descrição</th>
-                <th scope="col">preço</th>
-                <th scope="col">estoque</th>
-                <th scope="col">criado em</th>
-                <th scope="col">atualizado em</th>
-                <th scope="col">gtin</th>
-                <th scope="col">categoria</th>
-                <th colspan="1"></th>
+                <th scope="col">Id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Estoque</th>
+                <th scope="col">Data Criação</th>
+                <th scope="col">Data Atualização</th>
+                <th scope="col">Gtin</th>
+                <th scope="col">Categoria</th>
+                <th colspan="2"></th>
             </tr>
         </thead>
         <tbody>
@@ -30,17 +30,17 @@
                     <td>{{ item.updated_at }}</td>
                     <td>{{ item.gtin }}</td>
                     <td>{{ item.category }}</td>
-                    <td><a href="{% url 'update_product' id=item.id%}"><button>Edit</button></a></td>
-                    <td><a href="{% url 'delete_product' id=item.id%}"><button>Delete</button></a></td>
+                    <td><a href="{% url 'update_product' id=item.id%}"><button class="btn">Editar</button></a></td>
+                    <td><a href="{% url 'delete_product' id=item.id%}"><button class="btn">Deletar</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>
     
     </table>
 
+    <div class="bottom mt-5">
+        <a href="/create_product"><button class="btn btn-secondary me-md-2" type="button">Criar Produto</button></a>
+        <a href="/"><button class="btn btn-secondary me-md-2" type="button">Voltar para Inicio</button></a>
+    </div> 
 </div>
-<div class="bottom">
-<a href="/create_product"><button class="btn btn-secondary me-md-2" type="button">Create Product</button></a>
-<a href="/"><button class="btn btn-secondary me-md-2" type="button">Main Menu</button></a>
-</div> 
 {% endblock%}
