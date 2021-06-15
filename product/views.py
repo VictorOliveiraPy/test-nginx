@@ -57,5 +57,5 @@ def create_products(request):
     return render(request, 'form.html', {'form': form})
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'base.html')
 
