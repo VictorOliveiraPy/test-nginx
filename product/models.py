@@ -15,10 +15,16 @@ class Product(BaseModel):
     price = models.FloatField()
     stock = models.IntegerField()
     gtin = models.CharField(max_length=30)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category = models.ManyToManyField('Category')
 
     def __str__(self) -> str:
-        return f"{self.name} - {self.descripiton} - {self.price} - {self.stock} - {self.gtin} - {self.created_at} - {self.updated_at} - {self.category}"
+        return f"{self.name} - {self.descripiton} - {self.price} - {self.stock} - {self.gtin} - {self.created_at} - {self.updated_at}"
+
+    def get_all_categories(self):
+        category = ''
+        for cat in self.category.all():
+            category += f' {cat},'
+        return category
 
 
 class Category(BaseModel):
