@@ -1,5 +1,5 @@
 services:
-    database_postrgres:
+    database_postgres:
         image: postgres
         environment: 
             POSTGRES_DB: products
@@ -7,8 +7,20 @@ services:
             POSTGRES_PASSWORD: mudar123
         ports: 
             - "5432:5432"
-        container_name: postgres_ts
         expose: 
             - "5432"
-
-            
+        container_name: postgres_ts
+        networks:
+            - connection
+    dependecies:
+        build: 
+            dockerfile: Dockerfile
+            context: .
+        image: olistts/django_poetry
+        ports: 
+            - "8000:8000"
+        networks:
+            - connection
+networks:
+    connection:
+        driver: bridge

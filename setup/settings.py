@@ -77,15 +77,14 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': "products",
-    'USER': 'olist_django',
-    'PASSWORD': 'mudar123',
-    'HOST': 'localhost',
-    'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "products",
+        'USER': 'olist_django',
+        'PASSWORD': 'mudar123',
+        'HOST': 'postgres_ts',
+        'PORT': '5432',
     }
 }
-
 
 
 # Password validation
