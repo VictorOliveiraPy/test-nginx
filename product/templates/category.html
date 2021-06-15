@@ -1,16 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% block content %}
 
-<div>
-    <table class="table table-striped">
+<div class="container mt-5">
+
+    <table class="table">
         <thead>
             <tr>
-                <th scope="col">id</th>
-                <th scope="col">nome</th>
-                <th scope="col">descrição</th>
-                <th scope="col">criado em</th>
-                <th scope="col">atualizado em</th>
+                <th scope="col">Id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Data Criação</th>
+                <th scope="col">Data Atualização</th>
                 <th colspan="2"></th>
             </tr>
         </thead>
@@ -22,18 +23,18 @@
                     <td>{{ item.description }}</td>
                     <td>{{ item.created_at }}</td>
                     <td>{{ item.updated_at }}</td>
-                    <td><a href="{% url 'update_category' id=item.id%}"><button>Edit</button></a></td>
-                    <td><a href="{% url 'delete_category' id=item.id%}"><button>Delete</button></a></td>
+                    <td><a href="{% url 'update_category' id=item.id%}"><button class="btn">Editar</button></a></td>
+                    <td><a href="{% url 'delete_category' id=item.id%}"><button class="btn">Deletar</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>
     
     </table>
-</div>
-    <div class="bottom">
-    <a href="/create"><button class="btn btn-secondary me-md-2" type="button">Create Category</button></a>
-    <a href="/"><button class="btn btn-secondary me-md-2" type="button">Main Menu</button></a>
+    <div class="bottom mt-5">
+    <a href="/create"><button class="btn btn-secondary me-md-2" type="button">Criar Categoria</button></a>
+    <a href="/"><button class="btn btn-secondary me-md-2" type="button">Voltar para Inicio</button></a>
 </div> 
+</div>
     
 
 {% endblock %}
