@@ -8,6 +8,8 @@ authors = ["JuniorCardoso <tarcisio.cardoso@olist.com>"]
 python = "^3.9"
 Django = "^3.2.4"
 psycopg2-binary = "^2.8.6"
+pytest = "^6.2.4"
+pytest-django = "^4.4.0"
 
 [tool.poetry.dev-dependencies]
 
