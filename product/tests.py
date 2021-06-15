@@ -68,10 +68,52 @@ class TestProduct(TestCase):
         self.assertEqual(len([product.category]), 1)
 
 
+@pytest.mark.usefixtures(
+    'create_category',
+)
+class TestCategory(TestCase):
+
+    def test_get_all_categories(self):
+
+        # Preparação
+
+        category = self.fake_category
+
+        # Assercao
+
+        self.assertIsInstance(
+            category, Category)
+
+    def test_class_product(self):
+
+        category = self.fake_category
+
+        self.assertEqual(category.name, 'Limpeza')
+        self.assertEqual(category.description, 'Limpeza em Geral')
+
+
 class TestViewsProduct(TestCase):
 
-    def test_list_all_products(self):
+    def test_list_all_products_route(self):
 
         response = self.client.get('/products')
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_products_route(self):
+
+        response = self.client.get('/create_product')
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_products_route(self):
+
+        response = self.client.patch('/update_product/1')
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_products_route(self):
+
+        response = self.client.delete('/delete_product/1')
 
         self.assertEqual(response.status_code, 200)
