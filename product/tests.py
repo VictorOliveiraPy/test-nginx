@@ -1,6 +1,6 @@
 import pytest
 from django.test import TestCase
-
+from asynctest import patch 
 from product.models import Category, Product
 
 
@@ -11,7 +11,7 @@ def build_category():
     )
 
 
-@pytest.mark.django_db
+# @pytest.mark.django_db
 @pytest.fixture
 def create_product(request):
     product = Product.objects.create(
@@ -92,7 +92,24 @@ class TestCategory(TestCase):
         self.assertEqual(category.description, 'Limpeza em Geral')
 
 
+@pytest.mark.usefixtures(
+    'create_product',
+)
 class TestViewsProduct(TestCase):
+    def test_create_products_route(self):
+
+        payload = {
+            "name":"TestProduct",
+            "description":"TestProduct",
+            "price":12.2,
+            "stock":100,
+            "gtin":'aghadj1',
+            "category":1,
+        }
+
+        response = self.client.get('/create_product', data=payload)
+
+        self.assertEqual(response.status_code, 200)
 
     def test_list_all_products_route(self):
 
@@ -100,11 +117,6 @@ class TestViewsProduct(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_create_products_route(self):
-
-        response = self.client.get('/create_product')
-
-        self.assertEqual(response.status_code, 200)
 
     def test_update_products_route(self):
 
@@ -112,8 +124,14 @@ class TestViewsProduct(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_delete_products_route(self):
+    @patch('product.views.Product')
+    def test_delete_products_route(
+        self,
+        product_mock
+        ):
+
+        product_mock = self.fake_product
 
         response = self.client.delete('/delete_product/1')
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)

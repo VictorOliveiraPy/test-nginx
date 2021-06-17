@@ -1,5 +1,5 @@
 from product.forms import CategoryForm, ProductForm
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import Category, Product
 
 
@@ -10,9 +10,10 @@ def list_categories(request):
 
 def update_categories(request, id):
     categories = Category.objects.get(id=id)
-    form = CategoryForm(request.POST or None, instance=categories)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST':
+        form = CategoryForm(request.POST or None, instance=categories)
+        if form.is_valid():
+            form.save()
         return redirect('list_categories')
     return render(request, 'form.html', {'form':form})
 
@@ -36,16 +37,17 @@ def list_products(request):
 
 
 def update_products(request, id):
-    products = Product.objects.get(id=id)
-    form = ProductForm(request.POST or None, instance=products)
-    if form.is_valid():
-        form.save()
+    form = ProductForm(request.POST or None)
+    if request.method == 'POST':
+        products = Product.objects.get(id=id)
+        form = ProductForm(request.POST or None, instance=products)
+        if form.is_valid():
+            form.save()
         return redirect('list_products')
     return render(request, 'form.html', {'form':form})
 
-def delete_products(request, id):
-    products = Product.objects.get(id=id)
-    products.delete()
+def delete_products(request,id):
+    get_object_or_404(Product, id=id).delete()
     return redirect('list_products')
     
 

@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': "products",
         'USER': 'olist_django',
         'PASSWORD': 'mudar123',
-        'HOST': 'database-postgres',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
