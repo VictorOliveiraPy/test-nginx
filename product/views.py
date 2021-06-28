@@ -1,63 +1,73 @@
-from product.forms import CategoryForm, ProductForm
-from django.shortcuts import redirect, render, get_object_or_404
-from .models import Category, Product
+from rest_framework.response import Response
+
+from django.http import Http404
+from rest_framework.views import APIView 
+from rest_framework import status
+
+from .models import Category
+from .serializers import CategorySerializer
 
 
-def list_categories(request):
-    categories = Category.objects.all()
-    return render(request, 'category.html', {'categories': categories})
+class CategoryList(APIView):
+    def get(self, request, format=None):
+        category = Category.objects.all()
+
+        serializer = CategorySerializer(
+            category,
+            many=True
+        )
+        return Response(
+            serializer.data
+        )
+
+    def post(self, request, format=None):
+        serializer = CategorySerializer(
+            data=request.data
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 
-def update_categories(request, id):
-    categories = Category.objects.get(id=id)
-    if request.method == 'POST':
-        form = CategoryForm(request.POST or None, instance=categories)
-        if form.is_valid():
-            form.save()
-        return redirect('list_categories')
-    return render(request, 'form.html', {'form':form})
+class CategoryDetail(APIView):
 
-def delete_categories(request, id):
-    categories = Category.objects.get(id=id)
-    categories.delete()
-    return redirect('list_categories')
-    
+    def get_object(self, pk):
+        try:
+            return Category.objects.get(pk=pk)
+        except Category.DoesNotExist:
+            raise Http404
 
-def create_categories(request):
-    form = CategoryForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('list_categories')
-    return render(request, 'form.html', {'form': form})
+    def get(self, request, pk, format=None):
+        category = self.get_object(pk)
+        serializer = CategorySerializer(category)
+        return Response(
+            serializer.data
+        )
 
+    def put(self, request, pk, format=None):
+        category = self.get_object(pk)
+        serializer = CategorySerializer(
+            category,
+            data=request.data
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
-def list_products(request):
-    products = Product.objects.all()
-    return render(request, 'product.html', {'products': products})
-
-
-def update_products(request, id):
-    form = ProductForm(request.POST or None)
-    if request.method == 'POST':
-        products = Product.objects.get(id=id)
-        form = ProductForm(request.POST or None, instance=products)
-        if form.is_valid():
-            form.save()
-        return redirect('list_products')
-    return render(request, 'form.html', {'form':form})
-
-def delete_products(request,id):
-    get_object_or_404(Product, id=id).delete()
-    return redirect('list_products')
-    
-
-def create_products(request):
-    form = ProductForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('list_products')
-    return render(request, 'form.html', {'form': form})
-
-def index(request):
-    return render(request, 'base.html')
-
+    def delete(self, request, pk, format=None):
+        category = self.get_object(pk)
+        category.delete()
+        return Response(
+            status=status.HTTP_204_NO_CONTENT
+        )
