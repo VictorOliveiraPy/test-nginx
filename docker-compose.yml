@@ -1,34 +1,31 @@
+version: '3.8'
+
 services:
-    database-postgres:
-        image: postgres
-        volumes: 
-            - .:/application/data/db/var/lib/postgresql/data
-        ports: 
-            - "5432:5432"
-        environment: 
-            POSTGRES_DB: products
-            POSTGRES_USER: olist_django
-            POSTGRES_PASSWORD: mudar123
-    migrate:
-        build: 
-            context: .
-            dockerfile: Dockerfile
-        command: python manage.py migrate
-        volumes: 
-            - .:/application
-        depends_on:
-            - database-postgres
-    start-app:
-        build: 
-            context: .
-            dockerfile: Dockerfile
-        command: python manage.py runserver 0.0.0.0:8000
-        volumes: 
-            - .:/application
-        ports: 
-            - "8000:8000"
-        depends_on:
-            - database-postgres
-            - migrate
-    
-    
+  ts-product:
+    build: . 
+    command: >
+      sh -c "python3 manage.py migrate &&
+      python3 manage.py runserver 0.0.0.0:8000 "
+    depends_on:
+      ts-db
+
+     
+    volumes:
+      - ./:/code
+    ports:
+      - 8000:8000
+    env_file:
+      - .env
+    depends_on:
+    - ts-db
+  ts-db:
+      image: postgres:13
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      environment:
+        - POSTGRES_USER=ts
+        - POSTGRES_PASSWORD=tsdrf
+        - POSTGRES_DB=ts_dev
+  
+volumes:
+    postgres_data:
