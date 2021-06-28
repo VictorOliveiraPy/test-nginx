@@ -15,5 +15,6 @@ urlpatterns = [
     path('api/category/', views.CategoryList.as_view(), name='api'),
     path('api/category/<int:pk>/', views.CategoryDetail.as_view(),
          name='category'),
-    path('api/product', views.ProductList.as_view(), name='api_product')
+    path('api/product/', views.ProductList.as_view(), name='api_product'),
+    path('api/product/<int:pk>/', views.ProductDetail.as_view()),
 ]
