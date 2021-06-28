@@ -14,5 +14,6 @@ urlpatterns = [
     # path('update_product/<int:id>', views.update_products, name='update_product'),
     path('api/category/', views.CategoryList.as_view(), name='api'),
     path('api/category/<int:pk>/', views.CategoryDetail.as_view(),
-         name='category')
+         name='category'),
+    path('api/product', views.ProductList.as_view(), name='api_product')
 ]

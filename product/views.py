@@ -7,6 +7,9 @@ from rest_framework import status
 from .models import Category
 from .serializers import CategorySerializer
 
+from .models import Product
+from .serializers import ProductSerializer
+
 
 class CategoryList(APIView):
     def get(self, request, format=None):
@@ -71,3 +74,32 @@ class CategoryDetail(APIView):
         return Response(
             status=status.HTTP_204_NO_CONTENT
         )
+
+
+class ProductList(APIView):
+    def get(self, request, format=None):
+        product = Product.objects.all()
+
+        serializer = ProductSerializer(
+            product,
+            many=True
+        )
+        return Response(
+            serializer.data
+        )
+
+    def post(self, request, format=None):
+        serializer = ProductSerializer(
+            data=request.data
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
