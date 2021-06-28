@@ -35,4 +35,4 @@ class Category(BaseModel):
     description = models.CharField(max_length=200)
 
     def __str__(self) -> str:
-        return f"Nome: {self.name} - Descrição: {self.description}"
+        return self.name

@@ -118,8 +118,8 @@ class ProductDetail(APIView):
         return Response(
             serializer.data
         )
-    
-    def put(self, request, pk, formatr=None):
+
+    def put(self, request, pk, format=None):
         product = self.get_object(pk)
         serializer = ProductSerializer(
             product, 
