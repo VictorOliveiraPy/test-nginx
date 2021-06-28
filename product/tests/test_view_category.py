@@ -74,3 +74,93 @@ def test_get_all_category(client, add_category):
     )
     assert resp.data[0]["name"] == category_one.name
     assert resp.data[1]["name"] == category_two.name
+
+
+@pytest.mark.django_db
+def test_remove_category(client, add_category):
+    category = add_category(
+        name="iphone",
+        description="xr"
+    )
+
+    resp = client.get(
+        f"/api/category/{category.id}/"
+    )
+    assert resp.status_code == 200
+    assert resp.data["name"] == "iphone"
+
+    resp_two = client.delete(
+        f"/api/category/{category.id}/"
+    )
+    assert resp_two.status_code == 204
+
+    resp_three = client.get(
+        "/api/category/"
+    )
+    assert resp_three.status_code == 200
+    assert len(resp_three.data) == 0
+
+
+@pytest.mark.django_db
+def test_remove_category_incorrect_id(client):
+    resp = client.delete(f"/api/category/99/")
+    assert resp.status_code == 404
+
+
+
+@pytest.mark.django_db
+def test_update_category(client, add_category):
+    category = add_category(
+        name="iphone",
+        description="xr"
+    )
+
+    resp = client.put(
+        f"/api/category/{category.id}/",
+        {"name": "iphonexr",
+         "description": "test"
+         },
+        content_type="application/json"
+    )
+    assert resp.status_code == 200
+    assert resp.data["name"] == "iphonexr"
+    assert resp.data["description"] == "test"
+
+    resp_two = client.get(f"/api/category/{category.id}/")
+    assert resp_two.status_code == 200
+    assert resp_two.data["name"] == "iphonexr"
+    assert resp.data["description"] == "test"
+
+
+@pytest.mark.django_db
+def test_update_category_incorrect_id(client):
+    resp = client.put(f"/api/category/99/")
+    assert resp.status_code == 404
+
+   
+@pytest.mark.django_db
+def test_update_category_invalid_json(client, add_category):
+    category = add_category(
+        name="iphone",
+        description="test"
+    )
+    resp = client.put(
+        f"/api/category/{category.id}/",
+        {}, content_type="application/json"
+    )
+    assert resp.status_code == 400
+
+
+@pytest.mark.django_db
+def test_update_movie_invalid_json_keys(client, add_category):
+    category = add_category(
+        name="iphone",
+        description="test"
+    )
+
+    resp = client.put(
+        f"/api/category/{category.id}/",
+        {"name": "iphone"},
+        content_type="application/json",
+    )
+    assert resp.status_code == 400
