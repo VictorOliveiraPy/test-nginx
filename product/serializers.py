@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Category
+from .models import Product
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -26,3 +27,23 @@ class CategorySerializer(serializers.ModelSerializer):
         )
         instance.save()
         return instance
+
+
+class ProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = [
+            'id',
+            'name',
+            'description',
+            'price',
+            'stock',
+            'gtin',
+            'category'
+        ]
+        read_only_fields = (
+            'id',
+            'created_at',
+            'updated_at',
+        ) 
