@@ -43,7 +43,7 @@ def test_add_invalid_json_category(client):
 
 
 @pytest.mark.django_db
-def test_get_single_study(client, add_category):
+def test_get_single_category(client, add_category):
     category = add_category(
         name='Iphone',
         description="xr 64"
