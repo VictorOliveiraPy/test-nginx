@@ -13,42 +13,6 @@ from drf_yasg.utils import swagger_auto_schema
 from .serializers import ProductSerializer
 
 
-
-@swagger_auto_schema(
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            "name": openapi.Schema(type=openapi.TYPE_STRING),
-            "description": openapi.Schema(type=openapi.TYPE_STRING),
-        },
-    )
-)
-def post(self, request, format=None):
-    serializer = CategorySerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@swagger_auto_schema(
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            "name": openapi.Schema(type=openapi.TYPE_STRING),
-            "description": openapi.Schema(type=openapi.TYPE_STRING),
-        },
-    )
-)
-def put(self, request, pk, format=None):
-    category = self.get_object(pk)
-    serializer = CategorySerializer(category, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 class CategoryList(APIView):
     def get(self, request, format=None):
         category = Category.objects.all()
@@ -61,6 +25,15 @@ class CategoryList(APIView):
             serializer.data
         )
 
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "name": openapi.Schema(type=openapi.TYPE_STRING),
+                "description": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+         )
+    )
     def post(self, request, format=None):
         serializer = CategorySerializer(
             data=request.data
@@ -91,7 +64,16 @@ class CategoryDetail(APIView):
         return Response(
             serializer.data
         )
-
+        
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "name": openapi.Schema(type=openapi.TYPE_STRING),
+                "description": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+        )
+    )
     def put(self, request, pk, format=None):
         category = self.get_object(pk)
         serializer = CategorySerializer(
