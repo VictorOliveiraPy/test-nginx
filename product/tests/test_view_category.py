@@ -43,18 +43,22 @@ def test_add_invalid_json_category(client):
 
 
 @pytest.mark.django_db
-def test_get_single_study(client, add_category):
+def test_get_single_category(client, add_category):
     category = add_category(
         name='Iphone',
         description="xr 64"
     )
-    resp = client.get(f"/api/category/{category.id}/")
+    resp = client.get(
+        f"/api/category/{category.id}/"
+    )
     assert resp.status_code == 200
     assert resp.data["name"] == "Iphone"
 
 
 def test_get_single_category_incorrect_id(client):
-    resp = client.get("/api/category/buuh/")
+    resp = client.get(
+        "/api/category/buuh/"
+    )
     assert resp.status_code == 404
 
 
@@ -103,7 +107,9 @@ def test_remove_category(client, add_category):
 
 @pytest.mark.django_db
 def test_remove_category_incorrect_id(client):
-    resp = client.delete(f"/api/category/99/")
+    resp = client.delete(
+        f"/api/category/99/"
+    )
     assert resp.status_code == 404
 
 
@@ -126,7 +132,8 @@ def test_update_category(client, add_category):
     assert resp.data["name"] == "iphonexr"
     assert resp.data["description"] == "test"
 
-    resp_two = client.get(f"/api/category/{category.id}/")
+    resp_two = client.get(
+        f"/api/category/{category.id}/")
     assert resp_two.status_code == 200
     assert resp_two.data["name"] == "iphonexr"
     assert resp.data["description"] == "test"
@@ -137,7 +144,7 @@ def test_update_category_incorrect_id(client):
     resp = client.put(f"/api/category/99/")
     assert resp.status_code == 404
 
-   
+
 @pytest.mark.django_db
 def test_update_category_invalid_json(client, add_category):
     category = add_category(
@@ -152,7 +159,7 @@ def test_update_category_invalid_json(client, add_category):
 
 
 @pytest.mark.django_db
-def test_update_movie_invalid_json_keys(client, add_category):
+def test_update_category_invalid_json_keys(client, add_category):
     category = add_category(
         name="iphone",
         description="test"

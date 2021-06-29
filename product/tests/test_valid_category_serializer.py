@@ -22,9 +22,7 @@ def test_invalid_category_serializer():
     serializer = CategorySerializer(
         data=invalid_serializer_data
     )
-    serializer = CategorySerializer(
-        data=invalid_serializer_data
-    )
+
     assert not serializer.is_valid()
     assert serializer.validated_data == {}
     assert serializer.data == invalid_serializer_data
