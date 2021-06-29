@@ -152,7 +152,7 @@ def test_update_category_invalid_json(client, add_category):
 
 
 @pytest.mark.django_db
-def test_update_movie_invalid_json_keys(client, add_category):
+def test_update_category_invalid_json_keys(client, add_category):
     category = add_category(
         name="iphone",
         description="test"
