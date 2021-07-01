@@ -141,11 +141,6 @@ REST_FRAMEWORK = {
 }
 
 
-STATIC_URL = '/static/'
-
-STATIC_ROOT = '/static'
-
-
 STATIC_URL = '/static/static/'
 MEDIA_URL = '/static/media/'
 
