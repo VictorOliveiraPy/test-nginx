@@ -1,17 +1,26 @@
 version: '3.8'
 
 services:
+  proxy:
+    build:
+      context: ./proxy
+    volumes:
+      - static_data:/vol/static
+    ports:
+        - 8080:8080
+
+
   ts-product:
     build: . 
-    command: >
-      sh -c "python3 manage.py migrate &&
-      python3 manage.py runserver 0.0.0.0:8000 "
+    command: > 
+     bash -c "python3 manage.py migrate &&
+      gunicorn setup.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       ts-db
 
-     
     volumes:
       - ./:/code
+      - static_data:/vol/web
     ports:
       - 8000:8000
     env_file:
@@ -28,4 +37,6 @@ services:
         - POSTGRES_DB=ts_dev
   
 volumes:
-    postgres_data:
+  postgres_data:
+  static_data:
+
