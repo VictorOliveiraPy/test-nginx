@@ -5,9 +5,9 @@ services:
     build:
       context: ./proxy
     volumes:
-      - ./:/code
+      - ./:/code/staticfiles
     ports:
-        - "8080:8080"
+      - 8090:80
     depends_on:
       - ts-product
 
@@ -17,14 +17,14 @@ services:
     command: > 
      bash -c "python3 manage.py migrate &&
      python manage.py collectstatic --noinput &&
-      gunicorn setup.wsgi:application --bind 0.0.0.0:8000"
+      gunicorn setup.wsgi:application"
     depends_on:
       ts-db
 
     volumes:
       - ./:/code
     ports:
-      - 8000:8000
+      - 8080:80
     env_file:
       - .env
     depends_on:
@@ -40,4 +40,5 @@ services:
   
 volumes:
   postgres_data:
+    
 
