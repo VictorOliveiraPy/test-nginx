@@ -141,8 +141,6 @@ REST_FRAMEWORK = {
 }
 
 
-STATIC_URL = '/static/static/'
-MEDIA_URL = '/static/media/'
+STATIC_URL = '/static/'
 
-STATIC_ROOT = '/vol/web/static'
-MEDIA_ROOT = '/vol/web/media'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
